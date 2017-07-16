@@ -8,7 +8,7 @@
 
 ## Demo
 
-![](./Resources/demo.png)
+![](./Resources/demo.PNG)
 
 ## Why?
 
