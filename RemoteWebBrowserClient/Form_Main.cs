@@ -35,6 +35,11 @@ namespace RemoteWebBrowserClient
 
         //###########################################################################################################################
 
+        private void Form_Main_Load(object sender, EventArgs e)
+        {
+            this.ToolStripMenuItem_update.Checked = m_client.AutoUpdate;
+        }
+
         private void Form_Main_FormClosing(object sender, FormClosingEventArgs e)
         {
             m_client.Disconnect();
@@ -65,7 +70,14 @@ namespace RemoteWebBrowserClient
 
         private void ToolStripMenuItem_update_Click(object sender, EventArgs e)
         {
-            m_client.UpdateImage();
+            this.ToolStripMenuItem_update.Checked = !this.ToolStripMenuItem_update.Checked;
+
+            m_client.AutoUpdate = this.ToolStripMenuItem_update.Checked;
+
+            if (m_client.AutoUpdate)
+            {
+                m_client.UpdateImage();
+            }
         }
 
         private void timer_check_Tick(object sender, EventArgs e)

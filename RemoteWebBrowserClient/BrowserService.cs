@@ -41,7 +41,8 @@ namespace RemoteWebBrowserClient
         public delegate void UpdateHandler(Image image);
         public event UpdateHandler WhenReceived;
 
-        private readonly object m_lockImageUpdate = new object();
+        public bool AutoUpdate
+        { get; set; } = true;
 
         //###########################################################################################################################
 
@@ -165,7 +166,10 @@ namespace RemoteWebBrowserClient
                     }
 
 
-                    UpdateImage();
+                    if (this.AutoUpdate)
+                    {
+                        UpdateImage();
+                    }
 
 
                     Image image = null;
@@ -217,10 +221,7 @@ namespace RemoteWebBrowserClient
 
         public void UpdateImage()
         {
-            lock (m_lockImageUpdate)
-            {
-                SendMessage("update");
-            }
+            SendMessage("update");
         }
 
         public void SendMouseDown(int key, int x, int y)

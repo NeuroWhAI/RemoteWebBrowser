@@ -67,7 +67,7 @@
             // ToolStripMenuItem_close
             // 
             this.ToolStripMenuItem_close.Name = "ToolStripMenuItem_close";
-            this.ToolStripMenuItem_close.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItem_close.Size = new System.Drawing.Size(98, 22);
             this.ToolStripMenuItem_close.Text = "종료";
             this.ToolStripMenuItem_close.Click += new System.EventHandler(this.ToolStripMenuItem_close_Click);
             // 
@@ -109,10 +109,11 @@
             // 
             // ToolStripMenuItem_update
             // 
-            this.ToolStripMenuItem_update.Enabled = false;
+            this.ToolStripMenuItem_update.Checked = true;
+            this.ToolStripMenuItem_update.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToolStripMenuItem_update.Name = "ToolStripMenuItem_update";
             this.ToolStripMenuItem_update.Size = new System.Drawing.Size(160, 22);
-            this.ToolStripMenuItem_update.Text = "Update";
+            this.ToolStripMenuItem_update.Text = "Auto Update";
             this.ToolStripMenuItem_update.Click += new System.EventHandler(this.ToolStripMenuItem_update_Click);
             // 
             // menuStrip_top
@@ -145,6 +146,7 @@
             this.Name = "Form_Main";
             this.Text = "Remote Web Browser";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_Main_FormClosing);
+            this.Load += new System.EventHandler(this.Form_Main_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form_Main_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form_Main_KeyUp);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_controller)).EndInit();
