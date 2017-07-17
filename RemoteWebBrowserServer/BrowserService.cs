@@ -70,6 +70,8 @@ namespace RemoteWebBrowserServer
                 var intBytes = BitConverter.GetBytes((int)-1);
 
                 m_sock.Send(intBytes, 0, intBytes.Length, SocketFlags.None);
+
+                m_sock.Close();
             }
 
 
@@ -127,17 +129,10 @@ namespace RemoteWebBrowserServer
                     }
                     else if (packet.Command == "kdown")
                     {
-                        /*WinApi.PostMessage(this.BrowserHandle, WinApi.WM_KEYDOWN,
-                            new IntPtr(int.Parse(packet.Messages[1])), IntPtr.Zero);
-
-                        WinApi.SendMessage(this.BrowserHandle, WinApi.WM_CHAR,
-                            new IntPtr(int.Parse(packet.Messages[1])), IntPtr.Zero);*/
                         WinApi.keybd_event(int.Parse(packet.Messages[1]), 0, 0, 0);
                     }
                     else if (packet.Command == "kup")
                     {
-                        /*WinApi.PostMessage(this.BrowserHandle, WinApi.WM_KEYUP,
-                            new IntPtr(int.Parse(packet.Messages[1])), new IntPtr(1));*/
                         WinApi.keybd_event(int.Parse(packet.Messages[1]), 0, 2, 0);
                     }
                 }
@@ -145,9 +140,6 @@ namespace RemoteWebBrowserServer
 
                 m_browser.Dispose();
                 m_browser = null;
-
-                
-                m_sock.Close();
             }
 #if DEBUG
             catch (Exception exp)

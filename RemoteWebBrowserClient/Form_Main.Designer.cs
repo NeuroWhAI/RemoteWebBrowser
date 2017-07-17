@@ -67,7 +67,7 @@
             // ToolStripMenuItem_close
             // 
             this.ToolStripMenuItem_close.Name = "ToolStripMenuItem_close";
-            this.ToolStripMenuItem_close.Size = new System.Drawing.Size(98, 22);
+            this.ToolStripMenuItem_close.Size = new System.Drawing.Size(152, 22);
             this.ToolStripMenuItem_close.Text = "종료";
             this.ToolStripMenuItem_close.Click += new System.EventHandler(this.ToolStripMenuItem_close_Click);
             // 

@@ -104,9 +104,24 @@ namespace RemoteWebBrowserClient
                 {
                     var intBytes = new byte[4];
 
-                    int nb = m_sock.Receive(intBytes, 0, intBytes.Length, SocketFlags.None);
+                    int recvResult = 0;
 
-                    if (nb <= 0)
+                    try
+                    {
+                        recvResult = m_sock.Receive(intBytes, 0, intBytes.Length, SocketFlags.None);
+                    }
+                    catch (SocketException)
+                    {
+                        recvResult = -1;
+                    }
+#if !DEBUG
+                    catch
+                    {
+                        recvResult = -1;
+                    }
+#endif
+
+                    if (recvResult <= 0)
                     {
                         m_onService = false;
                         return;
@@ -133,18 +148,18 @@ namespace RemoteWebBrowserClient
 
                         while (m_sock.Available < blockSize)
                         {
-                            Thread.Sleep(50);
+                            Thread.Sleep(1);
                         }
 
-                        nb = m_sock.Receive(buff, 0, blockSize, SocketFlags.None);
+                        recvResult = m_sock.Receive(buff, 0, blockSize, SocketFlags.None);
 
-                        if (nb <= 0)
+                        if (recvResult <= 0)
                         {
                             m_onService = false;
                             return;
                         }
 
-                        received += nb;
+                        received += recvResult;
 
                         totalBytes.AddRange(buff);
                     }
@@ -153,8 +168,12 @@ namespace RemoteWebBrowserClient
                     UpdateImage();
 
 
-                    var ms = new MemoryStream(totalBytes.ToArray());
-                    var image = Image.FromStream(ms);
+                    Image image = null;
+
+                    using (var ms = new MemoryStream(totalBytes.ToArray()))
+                    {
+                        image = Image.FromStream(ms);
+                    }
 
 
                     WhenReceived(image);
@@ -177,7 +196,7 @@ namespace RemoteWebBrowserClient
 
         private void SendMessage(string cmd, string arg = null)
         {
-            if (m_sock != null)
+            if (m_sock != null && m_sock.Connected)
             {
                 string body = cmd;
 

@@ -30,9 +30,24 @@ namespace RemoteWebBrowserServer
         {
             var intBytes = new byte[4];
 
-            int nb = sock.Receive(intBytes, 0, intBytes.Length, SocketFlags.None);
+            int recvResult = 0;
 
-            if (nb <= 0)
+            try
+            {
+                recvResult = sock.Receive(intBytes, 0, intBytes.Length, SocketFlags.None);
+            }
+            catch (SocketException)
+            {
+                recvResult = -1;
+            }
+#if !DEBUG
+            catch
+            {
+                recvResult = -1;
+            }
+#endif
+
+            if (recvResult <= 0)
             {
                 Messages = new[] { "exit" };
                 return;
@@ -45,7 +60,7 @@ namespace RemoteWebBrowserServer
 
             while (sock.Available < bodySize)
             {
-                Thread.Sleep(50);
+                Thread.Sleep(1);
             }
 
             sock.Receive(bodyBytes, 0, bodyBytes.Length, SocketFlags.None);

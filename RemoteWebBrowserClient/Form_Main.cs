@@ -49,10 +49,9 @@ namespace RemoteWebBrowserClient
         {
             m_client.Connect(this.toolStripTextBox_ip.Text, this.toolStripTextBox_port.Text);
 
-            this.ToolStripMenuItem_update.Enabled = m_client.IsConnected;
-
             if (m_client.IsConnected)
             {
+                this.ToolStripMenuItem_update.Enabled = true;
                 this.ToolStripMenuItem_connect.Enabled = false;
 
                 this.timer_check.Start();
@@ -77,6 +76,8 @@ namespace RemoteWebBrowserClient
 
                 MessageBox.Show("서버와의 연결이 끊어졌습니다!", "Error!",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                Application.Exit();
             }
         }
 
